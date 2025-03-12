@@ -77,8 +77,8 @@ class laporanpenjualancontroller extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'id_pesanan' => 'sometimes|required|exists:pesanan,id_pesanan',
-            'id_pembayaran' => 'sometimes|required|exists:pembayaran,id_pembayaran',
+            'id_pesanan' => 'sometimes|required|exists:pesanan,id',
+            'id_pembayaran' => 'sometimes|required|exists:pembayaran,id',
             'periode' => 'sometimes|required|string|max:255',
             'total_penjualan' => 'sometimes|required|numeric|min:0',
             'total_pendapatan' => 'sometimes|required|numeric|min:0',
