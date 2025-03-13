@@ -10,7 +10,6 @@ class Pembayaran extends Model
     use HasFactory;
 
     protected $table = 'pembayaran';
-    protected $primaryKey = 'id_pembayaran';
     protected $fillable = [
         'id_pesanan',
         'id_pelanggan',

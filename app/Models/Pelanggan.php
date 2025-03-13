@@ -11,7 +11,6 @@ class Pelanggan extends Authenticatable
     use HasFactory;
 
     protected $table = 'pelanggan';
-    protected $primaryKey = 'id_pelanggan';
     protected $fillable = [
         'nama_pelanggan',
         'email',

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->integer('stok');
             $table->unsignedBigInteger('id_kategori');
             $table->timestamps();
-            $table->foreign('id_kategori')->references('id_kategori')->on('kategori')->onDelete('cascade');
         });
     }
     

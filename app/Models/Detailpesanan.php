@@ -10,7 +10,6 @@ class DetailPesanan extends Model
     use HasFactory;
 
     protected $table = 'detail_pesanan';
-    protected $primaryKey = 'id_detail';
     protected $fillable = ['id_pesanan', 'id_produk', 'jumlah', 'subtotal'];
 
     public function pesanan()

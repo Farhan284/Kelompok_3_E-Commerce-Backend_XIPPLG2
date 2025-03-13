@@ -10,7 +10,6 @@ class LaporanPenjualan extends Model
     use HasFactory;
 
     protected $table = 'laporan_penjualan';
-    protected $primaryKey = 'id_laporan';
     protected $fillable = [
         'id_pesanan',
         'id_pembayaran',
