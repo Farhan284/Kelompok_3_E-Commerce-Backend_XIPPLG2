@@ -1,28 +1,32 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Kategori;
+use App\Models\Pesanan;
 use Illuminate\Support\Facades\Validator;
 
-class kategoricontroller extends Controller
+class pesanancontroller extends Controller
 {
     public function index()
     {
-        $kategori = Kategori::all();
+        $pesanan = Pesanan::with('pelanggan')->get();
 
         return response()->json([
             'success' => true,
-            'message' => 'List of Kategori',
-            'data' => $kategori
+            'message' => 'List of Pesanan',
+            'data' => $pesanan
         ], 200);
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nama_kategori' => 'required|string|max:255|unique:kategori,nama_kategori',
+            'id_pelanggan' => 'required|exists:pelanggan,id',
+            'tanggal_pesanan' => 'required|date',
+            'status_pesanan' => 'required|string|max:255',
+            'total_harga' => 'required|numeric|min:0',
         ]);
 
         if ($validator->fails()) {
@@ -33,46 +37,49 @@ class kategoricontroller extends Controller
             ], 422);
         }
 
-        $kategori = Kategori::create($request->all());
+        $pesanan = Pesanan::create($request->all());
 
         return response()->json([
             'success' => true,
-            'message' => 'Kategori created successfully',
-            'data' => $kategori
+            'message' => 'Pesanan created successfully',
+            'data' => $pesanan
         ], 201);
     }
 
     public function show($id)
     {
-        $kategori = Kategori::find($id);
+        $pesanan = Pesanan::with('pelanggan')->find($id);
 
-        if (!$kategori) {
+        if (!$pesanan) {
             return response()->json([
                 'success' => false,
-                'message' => 'Kategori not found'
+                'message' => 'Pesanan not found'
             ], 404);
         }
 
         return response()->json([
             'success' => true,
-            'message' => 'Kategori found',
-            'data' => $kategori
+            'message' => 'Pesanan found',
+            'data' => $pesanan
         ], 200);
     }
 
     public function update(Request $request, $id)
     {
-        $kategori = Kategori::find($id);
+        $pesanan = Pesanan::find($id);
 
-        if (!$kategori) {
+        if (!$pesanan) {
             return response()->json([
                 'success' => false,
-                'message' => 'Kategori not found'
+                'message' => 'Pesanan not found'
             ], 404);
         }
 
         $validator = Validator::make($request->all(), [
-            'nama_kategori' => 'sometimes|required|string|max:255|unique:kategori,nama_kategori,' . $id,
+            'id_pelanggan' => 'sometimes|required|exists:pelanggan,id',
+            'tanggal_pesanan' => 'sometimes|required|date',
+            'status_pesanan' => 'sometimes|required|string|max:255',
+            'total_harga' => 'sometimes|required|numeric|min:0',
         ]);
 
         if ($validator->fails()) {
@@ -83,31 +90,31 @@ class kategoricontroller extends Controller
             ], 422);
         }
 
-        $kategori->update($request->all());
+        $pesanan->update($request->all());
 
         return response()->json([
             'success' => true,
-            'message' => 'Kategori updated successfully',
-            'data' => $kategori
+            'message' => 'Pesanan updated successfully',
+            'data' => $pesanan
         ], 200);
     }
 
     public function destroy($id)
     {
-        $kategori = Kategori::find($id);
+        $pesanan = Pesanan::find($id);
 
-        if (!$kategori) {
+        if (!$pesanan) {
             return response()->json([
                 'success' => false,
-                'message' => 'Kategori not found'
+                'message' => 'Pesanan not found'
             ], 404);
         }
 
-        $kategori->delete();
+        $pesanan->delete();
 
         return response()->json([
             'success' => true,
-            'message' => 'Kategori deleted successfully'
+            'message' => 'Pesanan deleted successfully'
         ], 200);
     }
 }

@@ -1,31 +1,34 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Pesanan;
+use App\Models\Pembayaran;
 use Illuminate\Support\Facades\Validator;
 
-class pesanancontroller extends Controller
+class pembayarancontroller extends Controller
 {
     public function index()
     {
-        $pesanan = Pesanan::with('pelanggan')->get();
+        $pembayaran = Pembayaran::with(['pesanan', 'pelanggan'])->get();
 
         return response()->json([
             'success' => true,
-            'message' => 'List of Pesanan',
-            'data' => $pesanan
+            'message' => 'List of Pembayaran',
+            'data' => $pembayaran
         ], 200);
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'id_pesanan' => 'required|exists:pesanan,id',
             'id_pelanggan' => 'required|exists:pelanggan,id',
-            'tanggal_pesanan' => 'required|date',
-            'status_pesanan' => 'required|string|max:255',
-            'total_harga' => 'required|numeric|min:0',
+            'metode_pembayaran' => 'required|string|max:255',
+            'status_pembayaran' => 'required|string|max:255',
+            'tanggal_pembayaran' => 'required|date',
+            'total_pembayaran' => 'required|numeric|min:0',
         ]);
 
         if ($validator->fails()) {
@@ -36,49 +39,51 @@ class pesanancontroller extends Controller
             ], 422);
         }
 
-        $pesanan = Pesanan::create($request->all());
+        $pembayaran = Pembayaran::create($request->all());
 
         return response()->json([
             'success' => true,
-            'message' => 'Pesanan created successfully',
-            'data' => $pesanan
+            'message' => 'Pembayaran created successfully',
+            'data' => $pembayaran
         ], 201);
     }
 
     public function show($id)
     {
-        $pesanan = Pesanan::with('pelanggan')->find($id);
+        $pembayaran = Pembayaran::with(['pesanan', 'pelanggan'])->find($id);
 
-        if (!$pesanan) {
+        if (!$pembayaran) {
             return response()->json([
                 'success' => false,
-                'message' => 'Pesanan not found'
+                'message' => 'Pembayaran not found'
             ], 404);
         }
 
         return response()->json([
             'success' => true,
-            'message' => 'Pesanan found',
-            'data' => $pesanan
+            'message' => 'Pembayaran found',
+            'data' => $pembayaran
         ], 200);
     }
 
     public function update(Request $request, $id)
     {
-        $pesanan = Pesanan::find($id);
+        $pembayaran = Pembayaran::find($id);
 
-        if (!$pesanan) {
+        if (!$pembayaran) {
             return response()->json([
                 'success' => false,
-                'message' => 'Pesanan not found'
+                'message' => 'Pembayaran not found'
             ], 404);
         }
 
         $validator = Validator::make($request->all(), [
+            'id_pesanan' => 'sometimes|required|exists:pesanan,id',
             'id_pelanggan' => 'sometimes|required|exists:pelanggan,id',
-            'tanggal_pesanan' => 'sometimes|required|date',
-            'status_pesanan' => 'sometimes|required|string|max:255',
-            'total_harga' => 'sometimes|required|numeric|min:0',
+            'metode_pembayaran' => 'sometimes|required|string|max:255',
+            'status_pembayaran' => 'sometimes|required|string|max:255',
+            'tanggal_pembayaran' => 'sometimes|required|date',
+            'total_pembayaran' => 'sometimes|required|numeric|min:0',
         ]);
 
         if ($validator->fails()) {
@@ -89,31 +94,31 @@ class pesanancontroller extends Controller
             ], 422);
         }
 
-        $pesanan->update($request->all());
+        $pembayaran->update($request->all());
 
         return response()->json([
             'success' => true,
-            'message' => 'Pesanan updated successfully',
-            'data' => $pesanan
+            'message' => 'Pembayaran updated successfully',
+            'data' => $pembayaran
         ], 200);
     }
 
     public function destroy($id)
     {
-        $pesanan = Pesanan::find($id);
+        $pembayaran = Pembayaran::find($id);
 
-        if (!$pesanan) {
+        if (!$pembayaran) {
             return response()->json([
                 'success' => false,
-                'message' => 'Pesanan not found'
+                'message' => 'Pembayaran not found'
             ], 404);
         }
 
-        $pesanan->delete();
+        $pembayaran->delete();
 
         return response()->json([
             'success' => true,
-            'message' => 'Pesanan deleted successfully'
+            'message' => 'Pembayaran deleted successfully'
         ], 200);
     }
 }

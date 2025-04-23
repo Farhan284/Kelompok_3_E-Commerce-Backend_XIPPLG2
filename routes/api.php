@@ -2,13 +2,13 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PelangganController;
-use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\ProdukController;
-use App\Http\Controllers\PesananController;
-use App\Http\Controllers\PembayaranController;
-use App\Http\Controllers\LaporanPenjualanController;
-use App\Http\Controllers\DetailPesananController;
+use App\Http\Controllers\API\PelangganController;
+use App\Http\Controllers\API\KategoriController;
+use App\Http\Controllers\API\ProdukController;
+use App\Http\Controllers\API\PesananController;
+use App\Http\Controllers\API\PembayaranController;
+use App\Http\Controllers\API\LaporanPenjualanController;
+use App\Http\Controllers\API\DetailPesananController;
 
 Route::apiResource('pelanggan', PelangganController::class);
 Route::apiResource('kategori', KategoriController::class);
