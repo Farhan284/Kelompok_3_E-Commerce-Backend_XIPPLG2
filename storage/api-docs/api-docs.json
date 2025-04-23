@@ -677,9 +677,619 @@
                     }
                 }
             }
+        },
+        "/api/laporan-penjualan": {
+            "get": {
+                "tags": [
+                    "Laporan Penjualan"
+                ],
+                "summary": "Menampilkan semua laporan penjualan",
+                "operationId": "cfc8a57924f7de8b32813ef579b4d095",
+                "responses": {
+                    "200": {
+                        "description": "List of Laporan Penjualan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Laporan Penjualan"
+                ],
+                "summary": "Membuat laporan penjualan baru",
+                "operationId": "95aee6235fe25dd358efc771823f2408",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_pesanan",
+                                    "id_pembayaran",
+                                    "periode",
+                                    "total_penjualan",
+                                    "total_pendapatan",
+                                    "tanggal_laporan"
+                                ],
+                                "properties": {
+                                    "id_pesanan": {
+                                        "type": "integer"
+                                    },
+                                    "id_pembayaran": {
+                                        "type": "integer"
+                                    },
+                                    "periode": {
+                                        "type": "string"
+                                    },
+                                    "total_penjualan": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "total_pendapatan": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "tanggal_laporan": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Laporan Penjualan created successfully"
+                    },
+                    "422": {
+                        "description": "Validation errors"
+                    }
+                }
+            }
+        },
+        "/api/laporan-penjualan/{id}": {
+            "get": {
+                "tags": [
+                    "Laporan Penjualan"
+                ],
+                "summary": "Menampilkan detail laporan penjualan",
+                "operationId": "d276f3cb68787356b34d36b7b26809f4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Laporan Penjualan found"
+                    },
+                    "404": {
+                        "description": "Laporan Penjualan not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Laporan Penjualan"
+                ],
+                "summary": "Mengupdate laporan penjualan",
+                "operationId": "6c32ecf501155229de99ad07c2ea8396",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_pesanan": {
+                                        "type": "integer"
+                                    },
+                                    "id_pembayaran": {
+                                        "type": "integer"
+                                    },
+                                    "periode": {
+                                        "type": "string"
+                                    },
+                                    "total_penjualan": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "total_pendapatan": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "tanggal_laporan": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Laporan Penjualan updated successfully"
+                    },
+                    "404": {
+                        "description": "Laporan Penjualan not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Laporan Penjualan"
+                ],
+                "summary": "Menghapus laporan penjualan",
+                "operationId": "60983d0d32eb52395febfdee44616ae0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Laporan Penjualan deleted successfully"
+                    },
+                    "404": {
+                        "description": "Laporan Penjualan not found"
+                    }
+                }
+            }
+        },
+        "/api/pelanggan": {
+            "get": {
+                "tags": [
+                    "Pelanggan"
+                ],
+                "summary": "Menampilkan semua pelanggan",
+                "operationId": "8547da5bacf0db329ece7952408a2cb0",
+                "responses": {
+                    "200": {
+                        "description": "List of Pelanggan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Pelanggan"
+                ],
+                "summary": "Membuat pelanggan baru",
+                "operationId": "9aaf4b06c9c6cfd8a2a53ff7b05b460e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nama_pelanggan",
+                                    "email",
+                                    "password",
+                                    "alamat",
+                                    "nomor_telepon"
+                                ],
+                                "properties": {
+                                    "nama_pelanggan": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "alamat": {
+                                        "type": "string"
+                                    },
+                                    "nomor_telepon": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pelanggan created successfully"
+                    },
+                    "422": {
+                        "description": "Validation errors"
+                    }
+                }
+            }
+        },
+        "/api/pelanggan/{id}": {
+            "get": {
+                "tags": [
+                    "Pelanggan"
+                ],
+                "summary": "Menampilkan detail pelanggan berdasarkan ID",
+                "operationId": "4d083e81f6fb1f887a8ba3565d74a77b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pelanggan found"
+                    },
+                    "404": {
+                        "description": "Pelanggan not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Pelanggan"
+                ],
+                "summary": "Mengupdate data pelanggan",
+                "operationId": "8b7908b04c2dcd172562f4b176b82202",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nama_pelanggan": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "alamat": {
+                                        "type": "string"
+                                    },
+                                    "nomor_telepon": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Pelanggan updated successfully"
+                    },
+                    "422": {
+                        "description": "Validation errors"
+                    },
+                    "404": {
+                        "description": "Pelanggan not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Pelanggan"
+                ],
+                "summary": "Menghapus pelanggan",
+                "operationId": "5fb925ac6bc3e79c48882171c250a4e6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pelanggan deleted successfully"
+                    },
+                    "404": {
+                        "description": "Pelanggan not found"
+                    }
+                }
+            }
+        },
+        "/api/pembayaran": {
+            "get": {
+                "tags": [
+                    "Pembayaran"
+                ],
+                "summary": "Menampilkan semua pembayaran",
+                "operationId": "b59db8649f14a4f1c15060ab304a629b",
+                "responses": {
+                    "200": {
+                        "description": "List of Pembayaran",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Pembayaran"
+                ],
+                "summary": "Membuat pembayaran baru",
+                "operationId": "edddbd797bca437acb54ce1f2b046691",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_pesanan",
+                                    "id_pelanggan",
+                                    "metode_pembayaran",
+                                    "status_pembayaran",
+                                    "tanggal_pembayaran",
+                                    "total_pembayaran"
+                                ],
+                                "properties": {
+                                    "id_pesanan": {
+                                        "type": "integer"
+                                    },
+                                    "id_pelanggan": {
+                                        "type": "integer"
+                                    },
+                                    "metode_pembayaran": {
+                                        "type": "string"
+                                    },
+                                    "status_pembayaran": {
+                                        "type": "string"
+                                    },
+                                    "tanggal_pembayaran": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "total_pembayaran": {
+                                        "type": "number",
+                                        "format": "float"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pembayaran created successfully"
+                    },
+                    "422": {
+                        "description": "Validation errors"
+                    }
+                }
+            }
+        },
+        "/api/pembayaran/{id}": {
+            "get": {
+                "tags": [
+                    "Pembayaran"
+                ],
+                "summary": "Menampilkan detail pembayaran berdasarkan ID",
+                "operationId": "d32380c171eaf74c989e66f61e2e1aa5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pembayaran found"
+                    },
+                    "404": {
+                        "description": "Pembayaran not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Pembayaran"
+                ],
+                "summary": "Mengupdate data pembayaran",
+                "operationId": "4debc47d41004fa1272c6f9e244fc1fd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_pesanan": {
+                                        "type": "integer"
+                                    },
+                                    "id_pelanggan": {
+                                        "type": "integer"
+                                    },
+                                    "metode_pembayaran": {
+                                        "type": "string"
+                                    },
+                                    "status_pembayaran": {
+                                        "type": "string"
+                                    },
+                                    "tanggal_pembayaran": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "total_pembayaran": {
+                                        "type": "number",
+                                        "format": "float"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Pembayaran updated successfully"
+                    },
+                    "422": {
+                        "description": "Validation errors"
+                    },
+                    "404": {
+                        "description": "Pembayaran not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Pembayaran"
+                ],
+                "summary": "Menghapus pembayaran",
+                "operationId": "70d6765ba080cb87bb03129e195fa424",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pembayaran deleted successfully"
+                    },
+                    "404": {
+                        "description": "Pembayaran not found"
+                    }
+                }
+            }
         }
     },
     "tags": [
+        {
+            "name": "Laporan Penjualan",
+            "description": "API untuk manajemen laporan penjualan"
+        },
+        {
+            "name": "Pelanggan",
+            "description": "API untuk manajemen data pelanggan"
+        },
+        {
+            "name": "Pembayaran",
+            "description": "API untuk manajemen data pembayaran"
+        },
         {
             "name": "Detail Pesanan",
             "description": "Detail Pesanan"
