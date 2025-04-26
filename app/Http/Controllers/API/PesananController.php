@@ -7,8 +7,31 @@ use Illuminate\Http\Request;
 use App\Models\Pesanan;
 use Illuminate\Support\Facades\Validator;
 
-class pesanancontroller extends Controller
+/**
+ * @OA\Tag(
+ *     name="Pesanan",
+ *     description="Manajemen Pesanan"
+ * )
+ */
+class PesananController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/pesanan",
+     *     tags={"Pesanan"},
+     *     summary="Menampilkan semua pesanan",
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of Pesanan",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="object"))
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
         $pesanan = Pesanan::with('pelanggan')->get();
@@ -20,6 +43,31 @@ class pesanancontroller extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/pesanan",
+     *     tags={"Pesanan"},
+     *     summary="Membuat pesanan baru",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"id_pelanggan","tanggal_pesanan","status_pesanan","total_harga"},
+     *             @OA\Property(property="id_pelanggan", type="integer"),
+     *             @OA\Property(property="tanggal_pesanan", type="string", format="date"),
+     *             @OA\Property(property="status_pesanan", type="string"),
+     *             @OA\Property(property="total_harga", type="number", format="float")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Pesanan created successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation errors"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -46,6 +94,27 @@ class pesanancontroller extends Controller
         ], 201);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/pesanan/{id}",
+     *     tags={"Pesanan"},
+     *     summary="Menampilkan detail pesanan berdasarkan ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Pesanan found"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Pesanan not found"
+     *     )
+     * )
+     */
     public function show($id)
     {
         $pesanan = Pesanan::with('pelanggan')->find($id);
@@ -64,6 +133,40 @@ class pesanancontroller extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/pesanan/{id}",
+     *     tags={"Pesanan"},
+     *     summary="Mengupdate data pesanan",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=false,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id_pelanggan", type="integer"),
+     *             @OA\Property(property="tanggal_pesanan", type="string", format="date"),
+     *             @OA\Property(property="status_pesanan", type="string"),
+     *             @OA\Property(property="total_harga", type="number", format="float")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Pesanan updated successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation errors"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Pesanan not found"
+     *     )
+     * )
+     */
     public function update(Request $request, $id)
     {
         $pesanan = Pesanan::find($id);
@@ -99,6 +202,27 @@ class pesanancontroller extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/pesanan/{id}",
+     *     tags={"Pesanan"},
+     *     summary="Menghapus pesanan",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Pesanan deleted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Pesanan not found"
+     *     )
+     * )
+     */
     public function destroy($id)
     {
         $pesanan = Pesanan::find($id);

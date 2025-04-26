@@ -7,8 +7,31 @@ use Illuminate\Http\Request;
 use App\Models\Produk;
 use Illuminate\Support\Facades\Validator;
 
-class produkcontroller extends Controller
+/**
+ * @OA\Tag(
+ *     name="Produk",
+ *     description="Manajemen Produk"
+ * )
+ */
+class ProdukController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/produk",
+     *     tags={"Produk"},
+     *     summary="Menampilkan semua produk",
+     *     @OA\Response(
+     *         response=200,
+     *         description="List of Produk",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="object"))
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
         $produk = Produk::all();
@@ -20,6 +43,32 @@ class produkcontroller extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/produk",
+     *     tags={"Produk"},
+     *     summary="Membuat produk baru",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"nama_produk","deskripsi","harga","stok","id_kategori"},
+     *             @OA\Property(property="nama_produk", type="string"),
+     *             @OA\Property(property="deskripsi", type="string"),
+     *             @OA\Property(property="harga", type="number", format="float"),
+     *             @OA\Property(property="stok", type="integer"),
+     *             @OA\Property(property="id_kategori", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Produk created successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation errors"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -47,6 +96,27 @@ class produkcontroller extends Controller
         ], 201);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/produk/{id}",
+     *     tags={"Produk"},
+     *     summary="Menampilkan detail produk berdasarkan ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Produk found"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Produk not found"
+     *     )
+     * )
+     */
     public function show($id)
     {
         $produk = Produk::find($id);
@@ -65,6 +135,41 @@ class produkcontroller extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/produk/{id}",
+     *     tags={"Produk"},
+     *     summary="Mengupdate data produk",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=false,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="nama_produk", type="string"),
+     *             @OA\Property(property="deskripsi", type="string"),
+     *             @OA\Property(property="harga", type="number", format="float"),
+     *             @OA\Property(property="stok", type="integer"),
+     *             @OA\Property(property="id_kategori", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Produk updated successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation errors"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Produk not found"
+     *     )
+     * )
+     */
     public function update(Request $request, $id)
     {
         $produk = Produk::find($id);
@@ -101,6 +206,27 @@ class produkcontroller extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/produk/{id}",
+     *     tags={"Produk"},
+     *     summary="Menghapus produk",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Produk deleted successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Produk not found"
+     *     )
+     * )
+     */
     public function destroy($id)
     {
         $produk = Produk::find($id);
