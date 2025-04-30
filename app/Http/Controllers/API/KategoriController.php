@@ -258,7 +258,7 @@ class kategoricontroller extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Kategori deleted successfully'
+            'message' => 'Kategori deleted successfullyssssss'
         ], 200);
     }
 }

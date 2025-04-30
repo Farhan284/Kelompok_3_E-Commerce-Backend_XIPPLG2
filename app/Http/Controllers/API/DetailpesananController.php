@@ -286,7 +286,7 @@ public function update(Request $request, $id)
 
         return response()->json([
             'success' => true,
-            'message' => 'Detail Pesanan deleted successfully'
+            'message' => 'Detail Pesanan deleted successfullyssss'
         ], 200);
     }
 }
