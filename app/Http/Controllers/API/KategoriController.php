@@ -262,3 +262,4 @@ class kategoricontroller extends Controller
         ], 200);
     }
 }
+
