@@ -11,6 +11,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         // dll...
     ];
+    
 
     // Middleware untuk group 'web'
     protected $middlewareGroups = [
