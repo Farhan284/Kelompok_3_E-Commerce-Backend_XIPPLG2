@@ -4,26 +4,27 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Pelanggan;
+use App\Models\Pengguna;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @OA\Tag(
- *     name="Pelanggan",
- *     description="Pelanggan"
+ *     name="Pengguna",
+ *     description="Pengguna"
  * )
  */
-class pelanggancontroller extends Controller
+class Penggunacontroller extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/pelanggan",
-     *     tags={"Pelanggan"},
-     *     summary="Menampilkan semua pelanggan",
+     *     path="/api/Pengguna",
+     *     tags={"Pengguna"},
+     *     summary="Menampilkan semua Pengguna",
      *     @OA\Response(
      *         response=200,
-     *         description="List of Pelanggan",
+     *         description="List of Pengguna",
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="success", type="boolean"),
@@ -35,25 +36,25 @@ class pelanggancontroller extends Controller
      */
     public function index()
     {
-        $pelanggan = Pelanggan::all();
+        $Pengguna = Pengguna::all();
 
         return response()->json([
             'success' => true,
-            'message' => 'List of Pelanggan',
-            'data' => $pelanggan
+            'message' => 'List of Pengguna',
+            'data' => $Pengguna
         ], 200);
     }
 
     /**
      * @OA\Post(
-     *     path="/api/pelanggan",
-     *     tags={"Pelanggan"},
-     *     summary="Membuat pelanggan baru",
+     *     path="/api/Pengguna",
+     *     tags={"Pengguna"},
+     *     summary="Membuat Pengguna baru",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"nama_pelanggan","email","password","alamat","nomor_telepon"},
-     *             @OA\Property(property="nama_pelanggan", type="string"),
+     *             required={"nama_Pengguna","email","password","alamat","nomor_telepon"},
+     *             @OA\Property(property="nama_Pengguna", type="string"),
      *             @OA\Property(property="email", type="string", format="email"),
      *             @OA\Property(property="password", type="string", format="password"),
      *             @OA\Property(property="alamat", type="string"),
@@ -62,7 +63,7 @@ class pelanggancontroller extends Controller
      *     ),
      *     @OA\Response(
      *         response=201,
-     *         description="Pelanggan created successfully"
+     *         description="Pengguna created successfully"
      *     ),
      *     @OA\Response(
      *         response=422,
@@ -73,11 +74,12 @@ class pelanggancontroller extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nama_pelanggan' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:pelanggan,email',
+            'nama_Pengguna' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:Pengguna,email',
             'password' => 'required|string|min:6',
             'alamat' => 'required|string',
             'nomor_telepon' => 'required|string|max:15',
+            'role' => 'in:pembeli,penjual'
         ]);
 
         if ($validator->fails()) {
@@ -88,23 +90,27 @@ class pelanggancontroller extends Controller
             ], 422);
         }
 
-        $data = $request->all();
-        $data['password'] = Hash::make($request->password);
-
-        $pelanggan = Pelanggan::create($data);
+      $pengguna = Pengguna::create([
+            'nama' => $request->nama,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'alamat' => $request->alamat,
+            'nomor_telepon' => $request->nomor_telepon,
+            'role' => $request->role ?? 'pembeli',
+        ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Pelanggan created successfully',
-            'data' => $pelanggan
-        ], 201);
+            'message' => 'Pengguna created',
+            'data' => $pengguna
+        ]);
     }
 
     /**
      * @OA\Get(
-     *     path="/api/pelanggan/{id}",
-     *     tags={"Pelanggan"},
-     *     summary="Menampilkan detail pelanggan berdasarkan ID",
+     *     path="/api/Pengguna/{id}",
+     *     tags={"Pengguna"},
+     *     summary="Menampilkan detail Pengguna berdasarkan ID",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -113,37 +119,37 @@ class pelanggancontroller extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Pelanggan found"
+     *         description="Pengguna found"
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Pelanggan not found"
+     *         description="Pengguna not found"
      *     )
      * )
      */
     public function show($id)
     {
-        $pelanggan = Pelanggan::find($id);
+        $Pengguna = Pengguna::find($id);
 
-        if (!$pelanggan) {
+        if (!$Pengguna) {
             return response()->json([
                 'success' => false,
-                'message' => 'Pelanggan not found'
+                'message' => 'Pengguna not found'
             ], 404);
         }
 
         return response()->json([
             'success' => true,
-            'message' => 'Pelanggan found',
-            'data' => $pelanggan
+            'message' => 'Pengguna found',
+            'data' => $Pengguna
         ], 200);
     }
 
     /**
      * @OA\Put(
-     *     path="/api/pelanggan/{id}",
-     *     tags={"Pelanggan"},
-     *     summary="Mengupdate data pelanggan",
+     *     path="/api/Pengguna/{id}",
+     *     tags={"Pengguna"},
+     *     summary="Mengupdate data Pengguna",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -153,7 +159,7 @@ class pelanggancontroller extends Controller
      *     @OA\RequestBody(
      *         required=false,
      *         @OA\JsonContent(
-     *             @OA\Property(property="nama_pelanggan", type="string"),
+     *             @OA\Property(property="nama_Pengguna", type="string"),
      *             @OA\Property(property="email", type="string", format="email"),
      *             @OA\Property(property="password", type="string", format="password"),
      *             @OA\Property(property="alamat", type="string"),
@@ -162,7 +168,7 @@ class pelanggancontroller extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Pelanggan updated successfully"
+     *         description="Pengguna updated successfully"
      *     ),
      *     @OA\Response(
      *         response=422,
@@ -170,24 +176,24 @@ class pelanggancontroller extends Controller
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Pelanggan not found"
+     *         description="Pengguna not found"
      *     )
      * )
      */
     public function update(Request $request, $id)
     {
-        $pelanggan = Pelanggan::find($id);
+        $Pengguna = Pengguna::find($id);
 
-        if (!$pelanggan) {
+        if (!$Pengguna) {
             return response()->json([
                 'success' => false,
-                'message' => 'Pelanggan not found'
+                'message' => 'Pengguna not found'
             ], 404);
         }
 
         $validator = Validator::make($request->all(), [
-            'nama_pelanggan' => 'sometimes|required|string|max:255',
-            'email' => 'sometimes|required|string|email|max:255|unique:pelanggan,email,' . $id . ',id',
+            'nama_Pengguna' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|string|email|max:255|unique:Pengguna,email,' . $id . ',id',
             'password' => 'sometimes|required|string|min:6',
             'alamat' => 'sometimes|required|string',
             'nomor_telepon' => 'sometimes|required|string|max:15',
@@ -205,20 +211,20 @@ class pelanggancontroller extends Controller
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
-        $pelanggan->update($data);
+         $pengguna->update($request->all());
 
         return response()->json([
             'success' => true,
-            'message' => 'Pelanggan updated successfully',
-            'data' => $pelanggan
+            'message' => 'Pengguna updated successfully',
+            'data' => $Pengguna
         ], 200);
     }
 
     /**
      * @OA\Delete(
-     *     path="/api/pelanggan/{id}",
-     *     tags={"Pelanggan"},
-     *     summary="Menghapus pelanggan",
+     *     path="/api/Pengguna/{id}",
+     *     tags={"Pengguna"},
+     *     summary="Menghapus Pengguna",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -227,30 +233,30 @@ class pelanggancontroller extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Pelanggan deleted successfully"
+     *         description="Pengguna deleted successfully"
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Pelanggan not found"
+     *         description="Pengguna not found"
      *     )
      * )
      */
     public function destroy($id)
     {
-        $pelanggan = Pelanggan::find($id);
+        $Pengguna = Pengguna::find($id);
 
-        if (!$pelanggan) {
+        if (!$Pengguna) {
             return response()->json([
                 'success' => false,
-                'message' => 'Pelanggan not found'
+                'message' => 'Pengguna not found'
             ], 404);
         }
 
-        $pelanggan->delete();
+        $Pengguna->delete();
 
         return response()->json([
             'success' => true,
-            'message' => 'Pelanggan deleted successfully'
+            'message' => 'Pengguna deleted successfully'
         ], 200);
     }
 }

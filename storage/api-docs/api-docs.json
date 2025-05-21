@@ -1275,20 +1275,409 @@
                     }
                 }
             }
+        },
+        "/api/pesanan": {
+            "get": {
+                "tags": [
+                    "Pesanan"
+                ],
+                "summary": "Menampilkan semua pesanan",
+                "operationId": "e8fda01f6834f4165dbf98102a4baddc",
+                "responses": {
+                    "200": {
+                        "description": "List of Pesanan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Pesanan"
+                ],
+                "summary": "Membuat pesanan baru",
+                "operationId": "12113622b562a4e339236b9dc40c2d24",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_pelanggan",
+                                    "tanggal_pesanan",
+                                    "status_pesanan",
+                                    "total_harga"
+                                ],
+                                "properties": {
+                                    "id_pelanggan": {
+                                        "type": "integer"
+                                    },
+                                    "tanggal_pesanan": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "status_pesanan": {
+                                        "type": "string"
+                                    },
+                                    "total_harga": {
+                                        "type": "number",
+                                        "format": "float"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pesanan created successfully"
+                    },
+                    "422": {
+                        "description": "Validation errors"
+                    }
+                }
+            }
+        },
+        "/api/pesanan/{id}": {
+            "get": {
+                "tags": [
+                    "Pesanan"
+                ],
+                "summary": "Menampilkan detail pesanan berdasarkan ID",
+                "operationId": "27dd7a4568171bf0e61eec531d4fce0b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pesanan found"
+                    },
+                    "404": {
+                        "description": "Pesanan not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Pesanan"
+                ],
+                "summary": "Mengupdate data pesanan",
+                "operationId": "391002baffa9df13d5f27b610c783520",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_pelanggan": {
+                                        "type": "integer"
+                                    },
+                                    "tanggal_pesanan": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "status_pesanan": {
+                                        "type": "string"
+                                    },
+                                    "total_harga": {
+                                        "type": "number",
+                                        "format": "float"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Pesanan updated successfully"
+                    },
+                    "422": {
+                        "description": "Validation errors"
+                    },
+                    "404": {
+                        "description": "Pesanan not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Pesanan"
+                ],
+                "summary": "Menghapus pesanan",
+                "operationId": "c075f472b0de2dc6a30fdc834bd006a0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pesanan deleted successfully"
+                    },
+                    "404": {
+                        "description": "Pesanan not found"
+                    }
+                }
+            }
+        },
+        "/api/produk": {
+            "get": {
+                "tags": [
+                    "Produk"
+                ],
+                "summary": "Menampilkan semua produk",
+                "operationId": "82be1cfb35a47c9a1908501faad2fe91",
+                "responses": {
+                    "200": {
+                        "description": "List of Produk",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Produk"
+                ],
+                "summary": "Membuat produk baru",
+                "operationId": "f5c50d3af3d9a2689821c4c6ea313cc5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nama_produk",
+                                    "deskripsi",
+                                    "harga",
+                                    "stok",
+                                    "id_kategori"
+                                ],
+                                "properties": {
+                                    "nama_produk": {
+                                        "type": "string"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string"
+                                    },
+                                    "harga": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "stok": {
+                                        "type": "integer"
+                                    },
+                                    "id_kategori": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Produk created successfully"
+                    },
+                    "422": {
+                        "description": "Validation errors"
+                    }
+                }
+            }
+        },
+        "/api/produk/{id}": {
+            "get": {
+                "tags": [
+                    "Produk"
+                ],
+                "summary": "Menampilkan detail produk berdasarkan ID",
+                "operationId": "8d795c6c96c869876803d9b62ed02820",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produk found"
+                    },
+                    "404": {
+                        "description": "Produk not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Produk"
+                ],
+                "summary": "Mengupdate data produk",
+                "operationId": "1b02fbf6cf518c68d4b3bd597d9ca2a9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nama_produk": {
+                                        "type": "string"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string"
+                                    },
+                                    "harga": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "stok": {
+                                        "type": "integer"
+                                    },
+                                    "id_kategori": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Produk updated successfully"
+                    },
+                    "422": {
+                        "description": "Validation errors"
+                    },
+                    "404": {
+                        "description": "Produk not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Produk"
+                ],
+                "summary": "Menghapus produk",
+                "operationId": "1c8c6cacbfdbc48c6f718a3b6832b279",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produk deleted successfully"
+                    },
+                    "404": {
+                        "description": "Produk not found"
+                    }
+                }
+            }
         }
     },
     "tags": [
         {
             "name": "Laporan Penjualan",
-            "description": "API untuk manajemen laporan penjualan"
+            "description": "Laporan Penjualan"
         },
         {
             "name": "Pelanggan",
-            "description": "API untuk manajemen data pelanggan"
+            "description": "Pelanggan"
         },
         {
             "name": "Pembayaran",
-            "description": "API untuk manajemen data pembayaran"
+            "description": "Pembayaran"
+        },
+        {
+            "name": "Pesanan",
+            "description": "Manajemen Pesanan"
+        },
+        {
+            "name": "Produk",
+            "description": "Manajemen Produk"
         },
         {
             "name": "Detail Pesanan",
