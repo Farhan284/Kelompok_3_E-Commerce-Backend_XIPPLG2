@@ -12,9 +12,11 @@ class kategoricontroller extends Controller
     
         /**
  * @OA\Get(
- *     path="/api/category",
+ *     path="/api/kategori",
  *     summary="Get list of kategories",
- *     tags={"kategory"},
+ *     tags={"Kategori"},
+ *     security={{"sanctum":{}}},
+ *     tags={"kategori"},
  *     operationId="getCategories",
  *     description="Retrieve a list of book categories",
  *     @OA\Response(
@@ -50,9 +52,11 @@ class kategoricontroller extends Controller
     }
 /**
  * @OA\Post(
- *     path="/api/category",
+ *     path="/api/kategori",
  *     summary="Create a new Kategori",
- *     tags={"kategory"},
+ *     tags={"Kategori"},
+ *     security={{"sanctum":{}}},
+ *     tags={"kategori"},
  *     operationId="createCategory",
  *     description="Store a new kategori into the database",
  *     @OA\RequestBody(
@@ -104,9 +108,11 @@ class kategoricontroller extends Controller
     }
 /**
  * @OA\Get(
- *     path="/api/category/{id}",
+ *     path="/api/kategori/{id}",
  *     summary="Get a Kategori by ID",
- *     tags={"kategory"},
+ *     tags={"Kategori"},
+ *     security={{"sanctum":{}}},
+ *     tags={"kategori"},
  *     operationId="getCategoryById",
  *     description="Retrieve a single kategori by ID",
  *     @OA\Parameter(
@@ -151,9 +157,11 @@ class kategoricontroller extends Controller
     }
 /**
  * @OA\Put(
- *     path="/api/category/{id}",
+ *     path="/api/kategori/{id}",
  *     summary="Update a Kategori",
- *     tags={"kategory"},
+ *     tags={"Kategori"},
+ *     security={{"sanctum":{}}},
+ *     tags={"kategori"},
  *     operationId="updateCategory",
  *     description="Update an existing kategori's name",
  *     @OA\Parameter(
@@ -219,9 +227,11 @@ class kategoricontroller extends Controller
 
     /**
  * @OA\Delete(
- *     path="/api/category/{id}",
+ *     path="/api/kategori/{id}",
  *     summary="Delete a Kategori by ID",
- *     tags={"kategory"},
+ *     tags={"Kategori"},
+ *     security={{"sanctum":{}}},
+ *     tags={"kategori"},
  *     operationId="deleteCategory",
  *     description="Remove a kategori from the system",
  *     @OA\Parameter(

@@ -14,11 +14,606 @@
     },
     "servers": [
         {
-            "url": "http://my-default-host.com",
+            "url": "http://localhost:8000",
             "description": "API Server"
         }
     ],
     "paths": {
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register pengguna baru",
+                "operationId": "eb3623f9bcd09a1dacbefaac07aed1bb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secret123"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pembeli",
+                                            "penjual"
+                                        ],
+                                        "example": "pembeli"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Register success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Register success"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "access_token_here"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "john@example.com"
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "pembeli"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "email": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The email has already been taken."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login pengguna",
+                "operationId": "f77777235d676b651c9465807d8f9485",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secret123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login berhasil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login berhasil"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "access_token_here"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "john@example.com"
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "pembeli"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Login gagal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login gagal"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/me": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Mendapatkan data user yang sedang login",
+                "operationId": "f606b7972b0f95109c9cd5b591061f41",
+                "responses": {
+                    "200": {
+                        "description": "Data user berhasil diambil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data user berhasil diambil"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "john@example.com"
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "pembeli"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout pengguna",
+                "operationId": "c4b3c6f1776909e546a421283c044ac3",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil logout",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged out"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/cart": {
+            "get": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Menampilkan semua data keranjang",
+                "operationId": "4d318ce69cfd6264db026debe928c066",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menampilkan daftar keranjang",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Cart"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Menambahkan item ke keranjang",
+                "operationId": "996c864a2f86fa49cd821351a0278772",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "quantity",
+                                    "total_price",
+                                    "produk_id",
+                                    "user_id"
+                                ],
+                                "properties": {
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "total_price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 150000
+                                    },
+                                    "produk_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Item berhasil ditambahkan ke keranjang",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Cart"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/cart/{id}": {
+            "get": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Menampilkan satu data keranjang",
+                "operationId": "c43d7cefedb6cc03b5c5de4fa2cc2d89",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID keranjang",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Data keranjang ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Cart"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Data tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Memperbarui data keranjang",
+                "operationId": "ed1e0ee177e4752010f98d03851aae41",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID keranjang",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "total_price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 225000
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data keranjang berhasil diperbarui",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Cart"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cart tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Menghapus item dari keranjang",
+                "operationId": "fee5f2f0960b8f0306ee4739c64264e9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID keranjang",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Berhasil dihapus"
+                    },
+                    "404": {
+                        "description": "Cart tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/detailpesanan": {
             "get": {
                 "tags": [
@@ -390,10 +985,10 @@
                 }
             }
         },
-        "/api/category": {
+        "/api/kategori": {
             "get": {
                 "tags": [
-                    "kategory"
+                    "kategori"
                 ],
                 "summary": "Get list of kategories",
                 "description": "Retrieve a list of book categories",
@@ -435,11 +1030,16 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
-                    "kategory"
+                    "kategori"
                 ],
                 "summary": "Create a new Kategori",
                 "description": "Store a new kategori into the database",
@@ -500,13 +1100,18 @@
                     "422": {
                         "description": "Validation error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
-        "/api/category/{id}": {
+        "/api/kategori/{id}": {
             "get": {
                 "tags": [
-                    "kategory"
+                    "kategori"
                 ],
                 "summary": "Get a Kategori by ID",
                 "description": "Retrieve a single kategori by ID",
@@ -558,11 +1163,16 @@
                     "404": {
                         "description": "Kategori not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
-                    "kategory"
+                    "kategori"
                 ],
                 "summary": "Update a Kategori",
                 "description": "Update an existing kategori's name",
@@ -632,11 +1242,16 @@
                     "422": {
                         "description": "Validation errors"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
-                    "kategory"
+                    "kategori"
                 ],
                 "summary": "Delete a Kategori by ID",
                 "description": "Remove a kategori from the system",
@@ -675,7 +1290,12 @@
                     "404": {
                         "description": "Kategori not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/laporan-penjualan": {
@@ -879,205 +1499,10 @@
                 }
             }
         },
-        "/api/pelanggan": {
-            "get": {
-                "tags": [
-                    "Pelanggan"
-                ],
-                "summary": "Menampilkan semua pelanggan",
-                "operationId": "8547da5bacf0db329ece7952408a2cb0",
-                "responses": {
-                    "200": {
-                        "description": "List of Pelanggan",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean"
-                                        },
-                                        "message": {
-                                            "type": "string"
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Pelanggan"
-                ],
-                "summary": "Membuat pelanggan baru",
-                "operationId": "9aaf4b06c9c6cfd8a2a53ff7b05b460e",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "nama_pelanggan",
-                                    "email",
-                                    "password",
-                                    "alamat",
-                                    "nomor_telepon"
-                                ],
-                                "properties": {
-                                    "nama_pelanggan": {
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password"
-                                    },
-                                    "alamat": {
-                                        "type": "string"
-                                    },
-                                    "nomor_telepon": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Pelanggan created successfully"
-                    },
-                    "422": {
-                        "description": "Validation errors"
-                    }
-                }
-            }
-        },
-        "/api/pelanggan/{id}": {
-            "get": {
-                "tags": [
-                    "Pelanggan"
-                ],
-                "summary": "Menampilkan detail pelanggan berdasarkan ID",
-                "operationId": "4d083e81f6fb1f887a8ba3565d74a77b",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Pelanggan found"
-                    },
-                    "404": {
-                        "description": "Pelanggan not found"
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "Pelanggan"
-                ],
-                "summary": "Mengupdate data pelanggan",
-                "operationId": "8b7908b04c2dcd172562f4b176b82202",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "nama_pelanggan": {
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password"
-                                    },
-                                    "alamat": {
-                                        "type": "string"
-                                    },
-                                    "nomor_telepon": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Pelanggan updated successfully"
-                    },
-                    "422": {
-                        "description": "Validation errors"
-                    },
-                    "404": {
-                        "description": "Pelanggan not found"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Pelanggan"
-                ],
-                "summary": "Menghapus pelanggan",
-                "operationId": "5fb925ac6bc3e79c48882171c250a4e6",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Pelanggan deleted successfully"
-                    },
-                    "404": {
-                        "description": "Pelanggan not found"
-                    }
-                }
-            }
-        },
         "/api/pembayaran": {
             "get": {
                 "tags": [
-                    "Pembayaran"
+                    "pembayaran"
                 ],
                 "summary": "Menampilkan semua pembayaran",
                 "operationId": "b59db8649f14a4f1c15060ab304a629b",
@@ -1106,11 +1531,16 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
-                    "Pembayaran"
+                    "pembayaran"
                 ],
                 "summary": "Membuat pembayaran baru",
                 "operationId": "edddbd797bca437acb54ce1f2b046691",
@@ -1161,13 +1591,18 @@
                     "422": {
                         "description": "Validation errors"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/pembayaran/{id}": {
             "get": {
                 "tags": [
-                    "Pembayaran"
+                    "pembayaran"
                 ],
                 "summary": "Menampilkan detail pembayaran berdasarkan ID",
                 "operationId": "d32380c171eaf74c989e66f61e2e1aa5",
@@ -1188,11 +1623,16 @@
                     "404": {
                         "description": "Pembayaran not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
-                    "Pembayaran"
+                    "pembayaran"
                 ],
                 "summary": "Mengupdate data pembayaran",
                 "operationId": "4debc47d41004fa1272c6f9e244fc1fd",
@@ -1248,11 +1688,16 @@
                     "404": {
                         "description": "Pembayaran not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
-                    "Pembayaran"
+                    "pembayaran"
                 ],
                 "summary": "Menghapus pembayaran",
                 "operationId": "70d6765ba080cb87bb03129e195fa424",
@@ -1273,13 +1718,18 @@
                     "404": {
                         "description": "Pembayaran not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/pesanan": {
             "get": {
                 "tags": [
-                    "Pesanan"
+                    "pesanan"
                 ],
                 "summary": "Menampilkan semua pesanan",
                 "operationId": "e8fda01f6834f4165dbf98102a4baddc",
@@ -1308,11 +1758,16 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
-                    "Pesanan"
+                    "pesanan"
                 ],
                 "summary": "Membuat pesanan baru",
                 "operationId": "12113622b562a4e339236b9dc40c2d24",
@@ -1322,13 +1777,13 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "id_pelanggan",
+                                    "id_user",
                                     "tanggal_pesanan",
                                     "status_pesanan",
                                     "total_harga"
                                 ],
                                 "properties": {
-                                    "id_pelanggan": {
+                                    "id_user": {
                                         "type": "integer"
                                     },
                                     "tanggal_pesanan": {
@@ -1355,13 +1810,18 @@
                     "422": {
                         "description": "Validation errors"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/pesanan/{id}": {
             "get": {
                 "tags": [
-                    "Pesanan"
+                    "pesanan"
                 ],
                 "summary": "Menampilkan detail pesanan berdasarkan ID",
                 "operationId": "27dd7a4568171bf0e61eec531d4fce0b",
@@ -1382,11 +1842,16 @@
                     "404": {
                         "description": "Pesanan not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
-                    "Pesanan"
+                    "pesanan"
                 ],
                 "summary": "Mengupdate data pesanan",
                 "operationId": "391002baffa9df13d5f27b610c783520",
@@ -1406,7 +1871,7 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "id_pelanggan": {
+                                    "id_user": {
                                         "type": "integer"
                                     },
                                     "tanggal_pesanan": {
@@ -1436,11 +1901,16 @@
                     "404": {
                         "description": "Pesanan not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
-                    "Pesanan"
+                    "pesanan"
                 ],
                 "summary": "Menghapus pesanan",
                 "operationId": "c075f472b0de2dc6a30fdc834bd006a0",
@@ -1461,13 +1931,116 @@
                     "404": {
                         "description": "Pesanan not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/pesanan/checkout": {
+            "post": {
+                "tags": [
+                    "pesanan"
+                ],
+                "summary": "Melakukan checkout dari keranjang dan membuat pesanan",
+                "description": "Endpoint ini akan mengambil semua item dari keranjang pengguna, menghitung total harga, membuat pesanan baru, menyimpan detail pesanan, dan mengosongkan keranjang.",
+                "operationId": "9d565996a1d8d7278b61a1cc62ec6b45",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_user"
+                                ],
+                                "properties": {
+                                    "id_user": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Checkout berhasil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Checkout berhasil"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "id_user": {
+                                                    "type": "integer"
+                                                },
+                                                "tanggal_pesanan": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "status_pesanan": {
+                                                    "type": "string"
+                                                },
+                                                "total_harga": {
+                                                    "type": "number",
+                                                    "format": "float"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Keranjang kosong",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Keranjang kosong"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/produk": {
             "get": {
                 "tags": [
-                    "Produk"
+                    "produk"
                 ],
                 "summary": "Menampilkan semua produk",
                 "operationId": "82be1cfb35a47c9a1908501faad2fe91",
@@ -1496,11 +2069,16 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
-                    "Produk"
+                    "produk"
                 ],
                 "summary": "Membuat produk baru",
                 "operationId": "f5c50d3af3d9a2689821c4c6ea313cc5",
@@ -1546,13 +2124,18 @@
                     "422": {
                         "description": "Validation errors"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/produk/{id}": {
             "get": {
                 "tags": [
-                    "Produk"
+                    "produk"
                 ],
                 "summary": "Menampilkan detail produk berdasarkan ID",
                 "operationId": "8d795c6c96c869876803d9b62ed02820",
@@ -1573,11 +2156,16 @@
                     "404": {
                         "description": "Produk not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
-                    "Produk"
+                    "produk"
                 ],
                 "summary": "Mengupdate data produk",
                 "operationId": "1b02fbf6cf518c68d4b3bd597d9ca2a9",
@@ -1629,11 +2217,16 @@
                     "404": {
                         "description": "Produk not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
-                    "Produk"
+                    "produk"
                 ],
                 "summary": "Menghapus produk",
                 "operationId": "1c8c6cacbfdbc48c6f718a3b6832b279",
@@ -1654,38 +2247,996 @@
                     "404": {
                         "description": "Produk not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/review": {
+            "get": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Menampilkan semua review",
+                "operationId": "c841e595ed270e7710aa051ff4ec208c",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mendapatkan daftar review"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Membuat review baru",
+                "operationId": "d907eca686211170ccec41589895f210",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "produk_id",
+                                    "rating"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "produk_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "rating": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "review": {
+                                        "type": "string",
+                                        "example": "Sangat puas!"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Berhasil membuat review"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/review/{id}": {
+            "get": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Menampilkan detail review",
+                "operationId": "e1d810efd5a4aea9f963f2a98f0fb26a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mendapatkan detail review"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Memperbarui review",
+                "operationId": "f2a540d316acfade3c028fffafc4c93d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "rating": {
+                                        "type": "integer",
+                                        "example": 4
+                                    },
+                                    "review": {
+                                        "type": "string",
+                                        "example": "Cukup bagus"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Berhasil memperbarui review"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Menghapus review",
+                "operationId": "22e78843159a4ff2de72cb38549bf3f6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menghapus review"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/store": {
+            "get": {
+                "tags": [
+                    "store"
+                ],
+                "summary": "Ambil semua data toko",
+                "operationId": "a62225ea13410f53b1a3bbc6a5bd64d6",
+                "responses": {
+                    "200": {
+                        "description": "List semua toko",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Store"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Store"
+                ],
+                "summary": "Buat toko baru",
+                "operationId": "948013b3e28b55e96e88988d294230d9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "city"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Toko Baru"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Jakarta"
+                                    },
+                                    "profile_image": {
+                                        "type": "string",
+                                        "example": "http://example.com/image.jpg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Toko berhasil dibuat",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Store"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/store/{id}": {
+            "get": {
+                "tags": [
+                    "Store"
+                ],
+                "summary": "Ambil detail toko berdasarkan ID",
+                "operationId": "74afb76cf324b08b0bbe63c55b331bea",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detail toko",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Store"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Toko tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Store"
+                ],
+                "summary": "Update data toko",
+                "operationId": "0be2f7769fb203f3b375752d1f166952",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Toko Update"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Surabaya"
+                                    },
+                                    "profile_image": {
+                                        "type": "string",
+                                        "example": "http://example.com/updated.jpg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Toko berhasil diupdate",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Store"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Toko tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Store"
+                ],
+                "summary": "Hapus toko berdasarkan ID",
+                "operationId": "7f29f69da676ea3820bc7bb79979ace8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Toko berhasil dihapus",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Toko berhasil dihapus"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Toko tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all user",
+                "description": "Mengambil semua data user",
+                "operationId": "getUsers",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/user": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Create a new user",
+                "operationId": "fc08eefb68aa5f66a3af0600c29866d9",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "alamat",
+                                    "nomor_telepon"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "alamat": {
+                                        "type": "string"
+                                    },
+                                    "nomor_telepon": {
+                                        "type": "string"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pembeli",
+                                            "penjual"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created successfully"
+                    },
+                    "422": {
+                        "description": "Validation errors"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/user/{id}": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get user details by ID",
+                "operationId": "89c8ebaf632ccdadf9afd97cbfe5eb8b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User found"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update user data",
+                "operationId": "b7d7fdd4b50676d11aa7266a5243c3fa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "alamat": {
+                                        "type": "string"
+                                    },
+                                    "nomor_telepon": {
+                                        "type": "string"
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pembeli",
+                                            "penjual"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User updated successfully"
+                    },
+                    "422": {
+                        "description": "Validation errors"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Delete user",
+                "operationId": "c87cdc7655597d3a3e14d69c582bb2eb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User deleted successfully"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Produk": {
+                "title": "Produk",
+                "required": [
+                    "produk_id",
+                    "nama_produk",
+                    "harga",
+                    "stok"
+                ],
+                "properties": {
+                    "produk_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nama_produk": {
+                        "type": "string",
+                        "example": "Laptop Asus ROG"
+                    },
+                    "deskripsi": {
+                        "type": "string",
+                        "example": "Laptop gaming dengan spesifikasi tinggi"
+                    },
+                    "harga": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 15000000
+                    },
+                    "stok": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "id_kategori": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "store_id": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "tanggal_ditambahkan": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-05-01"
+                    }
+                },
+                "type": "object"
+            },
+            "Review": {
+                "title": "Review",
+                "description": "Model Review untuk produk",
+                "required": [
+                    "user_id",
+                    "produk_id",
+                    "rating"
+                ],
+                "properties": {
+                    "review_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "produk_id": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "rating": {
+                        "type": "integer",
+                        "example": 4
+                    },
+                    "review": {
+                        "type": "string",
+                        "example": "Produk bagus, sangat puas!"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-04-23T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-04-23T12:30:00Z"
+                    },
+                    "user": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "produk": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/Produk"
+                            }
+                        ],
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Store": {
+                "title": "Store",
+                "required": [
+                    "name",
+                    "city"
+                ],
+                "properties": {
+                    "store_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Toko Elektronik"
+                    },
+                    "city": {
+                        "type": "string",
+                        "example": "Bandung"
+                    },
+                    "profile_image": {
+                        "type": "string",
+                        "example": "http://example.com/image.jpg",
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-04-30T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-04-30T12:30:00Z"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "alamat",
+                    "nomor_telepon",
+                    "role"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "john@example.com"
+                    },
+                    "alamat": {
+                        "type": "string",
+                        "example": "Jl. Merdeka No.1"
+                    },
+                    "nomor_telepon": {
+                        "type": "string",
+                        "example": "08123456789"
+                    },
+                    "role": {
+                        "type": "string",
+                        "example": "pembeli"
+                    }
+                },
+                "type": "object"
+            },
+            "Cart": {
+                "title": "Cart",
+                "description": "Data keranjang belanja",
+                "required": [
+                    "quantity",
+                    "total_price",
+                    "produk_id",
+                    "user_id"
+                ],
+                "properties": {
+                    "cart_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "quantity": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "total_price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 150000
+                    },
+                    "produk_id": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 5
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-04-23T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-04-23T12:30:00Z"
+                    },
+                    "produk": {
+                        "properties": {
+                            "produk_id": {
+                                "type": "integer",
+                                "example": 3
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "Buku Tulis"
+                            },
+                            "price": {
+                                "type": "number",
+                                "format": "float",
+                                "example": 75000
+                            }
+                        },
+                        "type": "object",
+                        "nullable": true
+                    },
+                    "user": {
+                        "properties": {
+                            "user_id": {
+                                "type": "integer",
+                                "example": 5
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "John Doe"
+                            },
+                            "email": {
+                                "type": "string",
+                                "example": "john@example.com"
+                            }
+                        },
+                        "type": "object",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "role": {
+                "title": "role",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "role_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "admin"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Administrator role"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-04-30T12:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-04-30T12:30:00Z"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            },
+            "bearerAuth": {
+                "type": "http",
+                "description": "Bearer token authentication using Laravel Sanctum",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     },
     "tags": [
         {
+            "name": "Cart",
+            "description": "Manajemen data keranjang belanja"
+        },
+        {
             "name": "Laporan Penjualan",
             "description": "Laporan Penjualan"
         },
         {
-            "name": "Pelanggan",
-            "description": "Pelanggan"
+            "name": "Store",
+            "description": "Manajemen Toko"
         },
         {
-            "name": "Pembayaran",
-            "description": "Pembayaran"
-        },
-        {
-            "name": "Pesanan",
-            "description": "Manajemen Pesanan"
-        },
-        {
-            "name": "Produk",
-            "description": "Manajemen Produk"
+            "name": "Auth",
+            "description": "Auth"
         },
         {
             "name": "Detail Pesanan",
             "description": "Detail Pesanan"
         },
         {
-            "name": "kategory",
-            "description": "kategory"
+            "name": "kategori",
+            "description": "kategori"
+        },
+        {
+            "name": "pembayaran",
+            "description": "pembayaran"
+        },
+        {
+            "name": "pesanan",
+            "description": "pesanan"
+        },
+        {
+            "name": "produk",
+            "description": "produk"
+        },
+        {
+            "name": "Review",
+            "description": "Review"
+        },
+        {
+            "name": "store",
+            "description": "store"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        },
+        {
+            "name": "user",
+            "description": "user"
         }
     ]
 }

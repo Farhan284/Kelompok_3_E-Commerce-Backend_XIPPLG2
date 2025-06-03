@@ -20,6 +20,8 @@ class pembayarancontroller extends Controller
      *     path="/api/pembayaran",
      *     tags={"Pembayaran"},
      *     summary="Menampilkan semua pembayaran",
+     * tags={"pembayaran"},
+     *     security={{"sanctum":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="List of Pembayaran",
@@ -48,6 +50,8 @@ class pembayarancontroller extends Controller
      *     path="/api/pembayaran",
      *     tags={"Pembayaran"},
      *     summary="Membuat pembayaran baru",
+     * tags={"pembayaran"},
+     *     security={{"sanctum":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -103,6 +107,8 @@ class pembayarancontroller extends Controller
      *     path="/api/pembayaran/{id}",
      *     tags={"Pembayaran"},
      *     summary="Menampilkan detail pembayaran berdasarkan ID",
+     * tags={"pembayaran"},
+     *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -142,6 +148,8 @@ class pembayarancontroller extends Controller
      *     path="/api/pembayaran/{id}",
      *     tags={"Pembayaran"},
      *     summary="Mengupdate data pembayaran",
+     * tags={"pembayaran"},
+     *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -215,6 +223,8 @@ class pembayarancontroller extends Controller
      *     path="/api/pembayaran/{id}",
      *     tags={"Pembayaran"},
      *     summary="Menghapus pembayaran",
+     * tags={"pembayaran"},
+     *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

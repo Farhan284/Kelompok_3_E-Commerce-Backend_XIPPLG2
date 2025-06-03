@@ -20,6 +20,8 @@ class ProdukController extends Controller
      *     path="/api/produk",
      *     tags={"Produk"},
      *     summary="Menampilkan semua produk",
+     * tags={"produk"},
+     *     security={{"sanctum":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="List of Produk",
@@ -48,6 +50,8 @@ class ProdukController extends Controller
      *     path="/api/produk",
      *     tags={"Produk"},
      *     summary="Membuat produk baru",
+     * tags={"produk"},
+ *     security={{"sanctum":{}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -101,6 +105,8 @@ class ProdukController extends Controller
      *     path="/api/produk/{id}",
      *     tags={"Produk"},
      *     summary="Menampilkan detail produk berdasarkan ID",
+     * tags={"produk"},
+ *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -140,6 +146,8 @@ class ProdukController extends Controller
      *     path="/api/produk/{id}",
      *     tags={"Produk"},
      *     summary="Mengupdate data produk",
+     * tags={"produk"},
+ *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -211,6 +219,8 @@ class ProdukController extends Controller
      *     path="/api/produk/{id}",
      *     tags={"Produk"},
      *     summary="Menghapus produk",
+     * tags={"produk"},
+ *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

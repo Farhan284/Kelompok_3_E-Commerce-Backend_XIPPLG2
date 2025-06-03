@@ -11,19 +11,20 @@ class Pesanan extends Model
 
     protected $table = 'pesanan';
     protected $fillable = [
-        'id_pelanggan',
+        'user_id',
+        'cart_id',  
         'tanggal_pesanan',
         'status_pesanan',
         'total_harga'
     ];
 
-    public function pelanggan()
+    public function user()
     {
-        return $this->belongsTo(Pelanggan::class, 'id_pelanggan');
+        return $this->belongsTo(Pelanggan::class, 'user_id');
     }
 
-    public function detailPesanan()
+    public function pembayaran()
     {
-        return $this->hasMany(DetailPesanan::class, 'id_pesanan');
+        return $this->hasMany(pembayaran::class, 'pembayaran_id');
     }
 }

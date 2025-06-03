@@ -10,7 +10,8 @@ return new class extends Migration
     {
         Schema::create('pesanan', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_pelanggan');
+            $table->unsignedBigInteger('user_id');
+             $table->unsignedBigInteger('cart_id')->nullable();
             $table->dateTime('tanggal_pesanan');
             $table->string('status_pesanan');
             $table->decimal('total_harga', 10, 2);
